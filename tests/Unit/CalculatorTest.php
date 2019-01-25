@@ -2,12 +2,13 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Components\Calculator\Calculator;
 use App\Components\Calculator\Operations\Addition;
-use App\Components\Calculator\Operations\Subtraction;
+use App\Components\Calculator\Calculator;
+use App\Components\Calculator\Operations\Division;
 use App\Components\Calculator\Operations\Multipication;
+use App\Components\Calculator\Operations\Subtraction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class CalculatorTest extends TestCase
 {
@@ -18,7 +19,7 @@ class CalculatorTest extends TestCase
      * @dataProvider additionCalculationProvider
      * @return void
      */
-    public function calculate_the_addition_of_array_values(array $numbers, int $expectedResult)
+    public function calculate_the_addition_of_array_values(array $numbers, float $expectedResult)
     {
         $calculator = new Calculator();
         $calculator->setNumbers($numbers);
@@ -34,7 +35,7 @@ class CalculatorTest extends TestCase
      * @dataProvider subtractionCalculationProvider
      * @return void
      */
-    public function calulates_the_subtraction_of_array_values(array $numbers, int $expectedResult)
+    public function calulates_the_subtraction_of_array_values(array $numbers, float $expectedResult)
     {
         $calculator = new Calculator();
         $calculator->setNumbers($numbers);
@@ -50,11 +51,27 @@ class CalculatorTest extends TestCase
      * @dataProvider multipicationCalculationProvider
      * @return void
      */
-    public function calulates_the_multipication_of_array_values(array $numbers, int $expectedResult)
+    public function calulates_the_multipication_of_array_values(array $numbers, float $expectedResult)
     {
         $calculator = new Calculator();
         $calculator->setNumbers($numbers);
         $calculator->setOperation(new Multipication);
+
+        $this->assertEquals($expectedResult, $calculator->process());
+    }
+
+    /**
+     * Calculates the division of values of an array from left to right.
+     *
+     * @test
+     * @dataProvider divisionCalculationProvider
+     * @return void
+     */
+    public function calulates_the_division_of_array_values(array $numbers, float $expectedResult)
+    {
+        $calculator = new Calculator();
+        $calculator->setNumbers($numbers);
+        $calculator->setOperation(new Division);
 
         $this->assertEquals($expectedResult, $calculator->process());
     }
@@ -108,6 +125,24 @@ class CalculatorTest extends TestCase
             [[-4, -2], 8],
             [[-4, -2, 2], 16],
             [[-4, 2, 2], -16],
+        ];
+    }
+
+    /**
+     * Division Calculation Provider.
+     *
+     * @return array
+     */
+    public function divisionCalculationProvider()
+    {
+        return [
+            [[4, 2], 2],
+            [[8, 4, 2], 1],
+            [[32, 4, 2, 2], 2],
+            [[2, 4], 0.5], 
+            [[2, 4, 4], 0.125],
+            [[4, -2], -2],
+            [[-4, -2], 2]
         ];
     }
 }
