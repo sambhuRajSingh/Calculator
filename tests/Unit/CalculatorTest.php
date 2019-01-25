@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Components\Calculator\Calculator;
 use App\Components\Calculator\Operations\Addition;
 use App\Components\Calculator\Operations\Subtraction;
+use App\Components\Calculator\Operations\Multipication;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CalculatorTest extends TestCase
@@ -43,6 +44,22 @@ class CalculatorTest extends TestCase
     }
 
     /**
+     * Calculates the multipication of values of an array from left to right.
+     *
+     * @test
+     * @dataProvider multipicationCalculationProvider
+     * @return void
+     */
+    public function calulates_the_multipication_of_array_values(array $numbers, int $expectedResult)
+    {
+        $calculator = new Calculator();
+        $calculator->setNumbers($numbers);
+        $calculator->setOperation(new Multipication);
+
+        $this->assertEquals($expectedResult, $calculator->process());
+    }
+
+    /**
      * Addition Calculation Provider.
      *
      * @return array
@@ -59,6 +76,11 @@ class CalculatorTest extends TestCase
         ];
     }
 
+    /**
+     * Subtraction Calculation Provider.
+     *
+     * @return array
+     */
     public function subtractionCalculationProvider()
     {
         return [
@@ -68,6 +90,24 @@ class CalculatorTest extends TestCase
             [[-2, 4], -6],
             [[-2, -4], 2], //-2 -(-4) > -2 +4 > 2
             [[-2, -4, 6], -4]
+        ];
+    }
+
+    /**
+     * Multipication Calculation Provider.
+     *
+     * @return array
+     */
+    public function multipicationCalculationProvider()
+    {
+        return [
+            [[4, 2], 8],
+            [[4, 2, 1, 2], 16],
+            [[4, 2, 0, 2], 0],
+            [[4, -2], -8],
+            [[-4, -2], 8],
+            [[-4, -2, 2], 16],
+            [[-4, 2, 2], -16],
         ];
     }
 }
