@@ -8,14 +8,11 @@ class Division implements Calculatable
 {
     public function calculate(array $numbers = [])
     {
-        $result = $numbers[0];
+        $result = array_shift($numbers);
 
-        for ($i = 1; $i < count($numbers); $i++) {
-            $result /= $numbers[$i];
-        
+        foreach ($numbers as $number) {
+            $result /= $number;
         };
-
-
 
         return $result;
     }
