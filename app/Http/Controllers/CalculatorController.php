@@ -12,21 +12,21 @@ class CalculatorController extends Controller
     /**
      * Instance of a calculator class.
      *
-     * @return App\Components\Calculator\Calculator
+     * @var \App\Components\Calculator\Calculator
      */
     private $calculator;
 
     /**
      * Instance of a operation factory.
      *
-     * @return App\Components\Calculator\OperatorFactory
+     * @var \App\Components\Calculator\OperatorFactory
      */
     private $operatorFactory;
 
     /**
      *
-     * @param $calculator App\Components\Calculator\Calculator Instance of calculator.
-     * @param $operatorFactory App\Components\Calculator\OperatorFactory Instance of OperatorFactory.
+     * @param $calculator \App\Components\Calculator\Calculator Instance of calculator.
+     * @param $operatorFactory \App\Components\Calculator\OperatorFactory Instance of OperatorFactory.
      *
      * @return void
      */
@@ -39,7 +39,7 @@ class CalculatorController extends Controller
     /**
      * Displays the initial calculator view.
      * 
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -50,6 +50,8 @@ class CalculatorController extends Controller
      * Handles the form submission to calculate number.
      *
      * @param $calculatorRequest App\Http\Requests\CalculatorRequest Instance of Calculator request.
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function calculate(CalculatorRequest $calculatorRequest)
     {
@@ -63,7 +65,7 @@ class CalculatorController extends Controller
             $this->calculator->setOperation($operatorClass);
             $result = $this->calculator->process();
 
-            return redirect()->back()->with('result', $result);
+            return redirect()->back()->withResult($result);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }
