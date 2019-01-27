@@ -2,23 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Components\Calculator\Operations\Addition;
 use App\Components\Calculator\Calculator;
-use App\Components\Calculator\Operations\Division;
-use App\Components\Calculator\Operations\Multipication;
+use App\Http\Requests\CalculatorRequest;
 use App\Components\Calculator\OperatorFactory;
-use App\Components\Calculator\Operations\Subtraction;
-use App\Http\Requests\CalculatorValidation;
 use Illuminate\Http\Request;
 
 class CalculatorController extends Controller
 {
+    /**
+     * Instance of a calculator class.
+     *
+     * @return App\Components\Calculator\Calculator
+     */
     private $calculator;
 
+    /**
+     * Instance of a operation factory.
+     *
+     * @return App\Components\Calculator\OperatorFactory
+     */
     private $operatorFactory;
 
     /**
-     * TO DO Use interface (Calculatable using a service provider)
+     *
+     * @param $calculator App\Components\Calculator\Calculator Instance of calculator.
+     * @param $operatorFactory App\Components\Calculator\OperatorFactory Instance of OperatorFactory.
+     *
+     * @return void
      */
     public function __construct(Calculator $calculator, OperatorFactory $operatorFactory)
     {
@@ -26,18 +36,28 @@ class CalculatorController extends Controller
         $this->operatorFactory = $operatorFactory;
     }
 
+    /**
+     * Displays the initial calculator view.
+     * 
+     * @return Response
+     */
     public function index()
     {
         return view('calculator.index');
     }
 
-    public function calculate(CalculatorValidation $request)
+    /**
+     * Handles the form submission to calculate number.
+     *
+     * @param $calculatorRequest App\Http\Requests\CalculatorRequest Instance of Calculator request.
+     */
+    public function calculate(CalculatorRequest $calculatorRequest)
     {
-        //Can be used if strict is used
-        $numbers = array_map('floatval', $request['numbers']);
+        //In case strict check is used.
+        $numbers = array_map('floatval', $calculatorRequest['numbers']);
 
         try {
-            $operatorClass = $this->operatorFactory->make($request['operation']);
+            $operatorClass = $this->operatorFactory->make($calculatorRequest['operation']);
 
             $this->calculator->setNumbers($numbers);
             $this->calculator->setOperation($operatorClass);
