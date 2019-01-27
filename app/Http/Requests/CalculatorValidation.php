@@ -40,7 +40,7 @@ class CalculatorValidation extends FormRequest
             'numbers.min' => 'Please enter all the number fields.',
             'numbers.required' => 'Please enter the required number fields.',
             'operation.required' => 'Please provide the operation you want to perform on the calculation.',
-            'operation.in' => 'Operation can be either addition, subtraction, multipication, division.',
+            'operation.in' => 'Operation can be only be addition, subtraction, multipication, division.',
         ];
     }
 }
