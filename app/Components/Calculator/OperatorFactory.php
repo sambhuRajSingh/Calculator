@@ -24,7 +24,7 @@ class OperatorFactory
         if (class_exists($operatorClass)) {
             return new $operatorClass();
         } else {
-            throw new Exception("Invalid operate type provided.");
+            throw new Exception('Invalid operator type provided.');
         }
     } 
 }
