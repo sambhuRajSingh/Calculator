@@ -7,6 +7,7 @@ use App\Components\Calculator\Calculator;
 use App\Components\Calculator\Operations\Division;
 use App\Components\Calculator\Operations\Multipication;
 use App\Components\Calculator\Operations\Subtraction;
+use App\Http\Requests\CalculatorValidation;
 use Illuminate\Http\Request;
 
 class CalculatorController extends Controller
@@ -26,15 +27,14 @@ class CalculatorController extends Controller
         return view('calculator.index');
     }
 
-    public function calculate()
+    public function calculate(CalculatorValidation $request)
     {
-
-        $numbers = request('numbers');
+        $numbers = $request['numbers'];
 
         //Can be used if strict is used
         $numbers = array_map('floatval', $numbers);
 
-        switch (request('operation')) {
+        switch ($request['operation']) {
             case 'addition':
                 $this->calculator->setNumbers($numbers);
                 $this->calculator->setOperation(new Addition);

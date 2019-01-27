@@ -15,7 +15,21 @@
             <h1 class="title">Basic Calculator</h1>
 
             @if (Session::has('result'))
-            <div class="notification">Result: {{ Session::get('result') }}</div>
+                <div class="notification is-success">
+                    <button class="delete"></button>
+                    Result: {{ Session::get('result') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="notification is-danger">
+                    <button class="delete"></button>
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $key => $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
 
             <form method="POST" action="/calculator">
