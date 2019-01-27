@@ -32,7 +32,7 @@ class CalculatorController extends Controller
         $numbers = request('numbers');
 
         //Can be used if strict is used
-        $numbers = array_map('intval', $numbers);
+        $numbers = array_map('floatval', $numbers);
 
         switch (request('operation')) {
             case 'addition':

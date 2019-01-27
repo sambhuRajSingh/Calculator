@@ -26,10 +26,12 @@
                     <div class="control">
                         <input
                             type="number"
+                            step="any"
                             class="input"
                             name="numbers[]"
                             placeholder="Enter first Number"
                             min="1"
+                            required
                         >
                     </div>
                 </div>
@@ -41,10 +43,12 @@
                     <div class="control">
                         <input
                             type="number"
+                            step="any"
                             class="input"
                             name="numbers[]"
                             placeholder="Enter second Number"
                             min="1"
+                            required
                         >
                     </div>
                 </div>
